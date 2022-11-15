@@ -16,10 +16,29 @@ class _OnBoardViewState extends State<OnBoardView> with SingleTickerProviderStat
   final String _skipTitle = 'Skip';
   //late->bu değişken initState anında / ekran çizilmeye başlarken değerini alacak
   late final TabController _tabControoler;
+  int _selectedIndex = 0;
   @override
   void initState() {
     super.initState();
     _tabControoler = TabController(length: OnBoardModels.onBoardItems.length, vsync: this);
+  }
+
+  void _changeIndicator(int value) {
+    _tabControoler.animateTo(value);
+  }
+
+  void _incrementSelectedPage() {
+    setState(() {
+      _selectedIndex++;
+    });
+  }
+
+  void _incrementAndChange() {
+    if (_selectedIndex == OnBoardModels.onBoardItems.length - 1) {
+      return;
+    }
+    _incrementSelectedPage();
+    _changeIndicator(_selectedIndex);
   }
 
   @override
@@ -59,7 +78,11 @@ class _OnBoardViewState extends State<OnBoardView> with SingleTickerProviderStat
   }
 
   FloatingActionButton _nextButton() {
-    return FloatingActionButton(child: const Text('Next'), onPressed: () {});
+    return FloatingActionButton(
+        child: const Text('Next'),
+        onPressed: () {
+          _incrementAndChange();
+        });
   }
 
   PageView _pageViewItem() {
