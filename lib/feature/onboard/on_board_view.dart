@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_state_management/feature/onboard/on_board_model.dart';
@@ -15,25 +17,26 @@ class OnBoardView extends StatefulWidget {
 //tabController için with SingleTickerProviderStateMixin eklendi.
 class _OnBoardViewState extends State<OnBoardView> {
   final String _skipTitle = 'Skip';
-
+  final String _start = 'Start';
+  final String _next = 'Next';
+  bool get _isLastPage => OnBoardModels.onBoardItems.length - 1 == _selectedIndex;
+  bool get _isFirstPage => _selectedIndex == 0;
   int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void _incrementSelectedPage() {
+  void _incrementSelectedPage([int? value]) {
+    inspect(value);
+    inspect(this); //tüm sayfayı logta görüntüleme
+    _selectedIndex = value ?? _selectedIndex++;
     setState(() {
-      _selectedIndex++;
+      value ?? _selectedIndex++;
     });
   }
 
-  void _incrementAndChange() {
-    if (_selectedIndex == OnBoardModels.onBoardItems.length - 1) {
+  void _incrementAndChange([int? value]) {
+    if (_isLastPage && value == null) {
       return;
     }
-    _incrementSelectedPage();
+    _incrementSelectedPage(value);
   }
 
   @override
@@ -62,7 +65,7 @@ class _OnBoardViewState extends State<OnBoardView> {
 
   FloatingActionButton _nextButton() {
     return FloatingActionButton(
-        child: const Text('Next'),
+        child: Text(_isLastPage ? _start : _next),
         onPressed: () {
           _incrementAndChange();
         });
@@ -70,6 +73,9 @@ class _OnBoardViewState extends State<OnBoardView> {
 
   PageView _pageViewItem() {
     return PageView.builder(
+      onPageChanged: (value) {
+        _incrementAndChange(value);
+      },
       itemBuilder: (context, index) {
         return OnBoardCard(model: OnBoardModels.onBoardItems[index]);
       },
@@ -84,12 +90,14 @@ class _OnBoardViewState extends State<OnBoardView> {
       //Status barın görünüm tipini belirler
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       actions: [TextButton(onPressed: () {}, child: Text(_skipTitle))],
-      leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.chevron_left_outlined,
-            color: Colors.grey,
-          )),
+      leading: _isFirstPage
+          ? null
+          : IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.chevron_left_outlined,
+                color: Colors.grey,
+              )),
     );
   }
 }
