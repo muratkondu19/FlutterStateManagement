@@ -8,6 +8,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Material App', home: OnBoardView());
+    return MaterialApp(
+      title: 'Material App',
+      home: const OnBoardView(),
+      theme: ThemeData.light().copyWith(floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Colors.indigo.shade500)),
+    );
   }
 }
