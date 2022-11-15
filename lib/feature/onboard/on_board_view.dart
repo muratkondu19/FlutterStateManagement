@@ -7,6 +7,8 @@ import 'package:flutter_state_management/feature/onboard/tab_indicator.dart';
 import 'package:flutter_state_management/feature/product/padding/page_padding.dart';
 import 'package:flutter_state_management/feature/product/padding/widget/on_board_card.dart';
 
+part './module/start_fab_button.dart';
+
 class OnBoardView extends StatefulWidget {
   const OnBoardView({Key? key}) : super(key: key);
 
@@ -17,8 +19,7 @@ class OnBoardView extends StatefulWidget {
 //tabController için with SingleTickerProviderStateMixin eklendi.
 class _OnBoardViewState extends State<OnBoardView> {
   final String _skipTitle = 'Skip';
-  final String _start = 'Start';
-  final String _next = 'Next';
+
   bool get _isLastPage => OnBoardModels.onBoardItems.length - 1 == _selectedIndex;
   bool get _isFirstPage => _selectedIndex == 0;
   int _selectedIndex = 0;
@@ -54,21 +55,20 @@ class _OnBoardViewState extends State<OnBoardView> {
                 TabIndicator(
                   selectedIndex: _selectedIndex,
                 ),
-                _nextButton()
+                //Start fab button'a sadece widgetı kullanan yer erişebilecek
+                //sayfaya özel widgetı sadece sayfayı kullananlar görebilir
+                _StartFabButton(
+                  isLastPage: _isFirstPage,
+                  onPressed: () {
+                    _incrementAndChange();
+                  },
+                )
               ],
             )
           ],
         ),
       ),
     );
-  }
-
-  FloatingActionButton _nextButton() {
-    return FloatingActionButton(
-        child: Text(_isLastPage ? _start : _next),
-        onPressed: () {
-          _incrementAndChange();
-        });
   }
 
   PageView _pageViewItem() {
