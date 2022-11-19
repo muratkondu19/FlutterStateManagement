@@ -24,20 +24,40 @@ class _OnBoardViewState extends State<OnBoardView> {
   bool get _isFirstPage => _selectedIndex == 0;
   int _selectedIndex = 0;
 
+  // -----XX
+  //Set state ile tüm widget ağacında bir hareketlenme olmaktadır,bu hareketlenmeden ötürü diğer widgetlarında  bundan etkilenebiliyor olması veya tetiklenmemsi olaiblir.
+  //Bu sebeple state yönetim metotları projeye dahil edilir
+  //Sadece değişmesi istenen, değişecek widget tetiklenir.
+  ValueNotifier<bool> isBackEnable = ValueNotifier(false);
+  // -----XX
+
   void _incrementSelectedPage([int? value]) {
     inspect(value);
     inspect(this); //tüm sayfayı logta görüntüleme
-    _selectedIndex = value ?? _selectedIndex++;
     setState(() {
-      value ?? _selectedIndex++;
+      if (value != null) {
+        _selectedIndex = value;
+      } else {
+        _selectedIndex++;
+      }
     });
   }
 
   void _incrementAndChange([int? value]) {
     if (_isLastPage && value == null) {
+      _changeBackEnable(true);
       return;
     }
+    _changeBackEnable(false);
     _incrementSelectedPage(value);
+  }
+
+  void _changeBackEnable(bool value) {
+    if (value == isBackEnable.value) {
+      //aynı değer geliyor ise tetikleme yapma return et
+      return;
+    }
+    isBackEnable.value = value;
   }
 
   @override
@@ -89,7 +109,15 @@ class _OnBoardViewState extends State<OnBoardView> {
       elevation: 0,
       //Status barın görünüm tipini belirler
       systemOverlayStyle: SystemUiOverlayStyle.dark,
-      actions: [TextButton(onPressed: () {}, child: Text(_skipTitle))],
+      //ValueListenableBuilder -> valueNotifier'i dinler.
+      actions: [
+        //isbackEnable tetiklendikçe ekranda çizimini yapar-
+        ValueListenableBuilder<bool>(
+            valueListenable: isBackEnable,
+            builder: (BuildContext context, bool value, Widget? child) {
+              return value ? const SizedBox() : TextButton(onPressed: () {}, child: Text(_skipTitle));
+            })
+      ],
       leading: _isFirstPage
           ? null
           : IconButton(

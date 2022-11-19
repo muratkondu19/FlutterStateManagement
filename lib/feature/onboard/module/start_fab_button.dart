@@ -8,10 +8,6 @@ class _StartFabButton extends StatelessWidget {
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-        child: Text(isLastPage ? _start : _next),
-        onPressed: () {
-          onPressed;
-        });
+    return FloatingActionButton(child: Text(isLastPage ? _start : _next), onPressed: onPressed);
   }
 }
