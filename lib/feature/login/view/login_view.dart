@@ -50,7 +50,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         leading: _loadingWidget(),
-        title: Text(context.read<UserContext>().name ?? ''),
+        title: Text(context.read<UserContext>().name),
       ),
       body: Padding(
         padding: const PagePadding.all(),

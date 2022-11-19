@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:vexana/vexana.dart';
 part 'map_model.g.dart';
@@ -9,6 +10,8 @@ class MapModel extends INetworkModel<MapModel> {
   Detail? detail;
   double? lat;
   double? long;
+
+  LatLng get latLong => LatLng(lat ?? 0, long ?? 0);
 
   MapModel({this.country, this.detail, this.lat, this.long});
 
