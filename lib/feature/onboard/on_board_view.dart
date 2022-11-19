@@ -28,6 +28,7 @@ class _OnBoardViewState extends State<OnBoardView> {
   //Set state ile tüm widget ağacında bir hareketlenme olmaktadır,bu hareketlenmeden ötürü diğer widgetlarında  bundan etkilenebiliyor olması veya tetiklenmemsi olaiblir.
   //Bu sebeple state yönetim metotları projeye dahil edilir
   //Sadece değişmesi istenen, değişecek widget tetiklenir.
+  //vanilla state has done
   ValueNotifier<bool> isBackEnable = ValueNotifier(false);
   // -----XX
 
