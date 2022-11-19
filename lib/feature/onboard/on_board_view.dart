@@ -2,10 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_state_management/feature/onboard/on_board_model.dart';
-import 'package:flutter_state_management/feature/onboard/tab_indicator.dart';
-import 'package:flutter_state_management/feature/product/padding/page_padding.dart';
-import 'package:flutter_state_management/feature/product/padding/widget/on_board_card.dart';
+import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
+
+import '../login/view/login_view.dart';
+import '../product/model/state/project_context.dart';
+import '../product/padding/page_padding.dart';
+import '../product/padding/widget/on_board_card.dart';
+import 'on_board_model.dart';
+import 'tab_indicator.dart';
 
 part './module/start_fab_button.dart';
 
@@ -64,7 +69,7 @@ class _OnBoardViewState extends State<OnBoardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appbar(),
+      appBar: _appbar(context),
       body: Padding(
         padding: const PagePadding.all(),
         child: Column(
@@ -104,10 +109,11 @@ class _OnBoardViewState extends State<OnBoardView> {
     );
   }
 
-  AppBar _appbar() {
+  AppBar _appbar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      title: Text(context.watch<ProductContext>().newUserName),
       //Status barın görünüm tipini belirler
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       //ValueListenableBuilder -> valueNotifier'i dinler.
@@ -116,7 +122,15 @@ class _OnBoardViewState extends State<OnBoardView> {
         ValueListenableBuilder<bool>(
             valueListenable: isBackEnable,
             builder: (BuildContext context, bool value, Widget? child) {
-              return value ? const SizedBox() : TextButton(onPressed: () {}, child: Text(_skipTitle));
+              return value
+                  ? const SizedBox()
+                  : TextButton(
+                      onPressed: () {
+                        context.read<ProductContext>().changeName('murat');
+                        //projedeki usercontext name olan tüm namelerin burada verilen değişken olması işlemi ->global provider kullanımı->proxyporvider
+                        context.navigateToPage(const LoginView());
+                      },
+                      child: Text(_skipTitle));
             })
       ],
       leading: _isFirstPage

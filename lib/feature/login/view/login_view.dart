@@ -1,9 +1,10 @@
 // ignore_for_file: unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
+import 'package:flutter_state_management/feature/product/constant/image_enum.dart';
+import 'package:flutter_state_management/feature/product/model/state/user_context.dart';
 import 'package:flutter_state_management/feature/product/utility/input_decoration.dart';
 import 'package:kartal/kartal.dart';
-import 'package:flutter_state_management/feature/product/constant/image_enum.dart';
 import 'package:provider/provider.dart';
 
 import '../../product/padding/page_padding.dart';
@@ -32,6 +33,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
     _loginViewModel = LoginViewModel();
+    print(context.read<UserContext>().name); //güncellenmiş data gözükmektedir.
   }
 
   @override
@@ -48,6 +50,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         leading: _loadingWidget(),
+        title: Text(context.read<UserContext>().name ?? ''),
       ),
       body: Padding(
         padding: const PagePadding.all(),

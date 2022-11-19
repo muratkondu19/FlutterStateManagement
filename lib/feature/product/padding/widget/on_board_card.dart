@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_state_management/feature/onboard/on_board_model.dart';
+import '../../../onboard/on_board_model.dart';
 
 class OnBoardCard extends StatelessWidget {
   const OnBoardCard({Key? key, required this.model}) : super(key: key);
