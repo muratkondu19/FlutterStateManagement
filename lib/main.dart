@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_state_management/feature/onboard/tab_indicator.dart';
+import 'package:flutter_state_management/feature/travel/view/travel_tab_view.dart';
 import 'package:provider/provider.dart';
 
 import 'feature/maps/view/map_select_view.dart';
@@ -28,9 +30,14 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Material App',
-        home: MapSelectView(),
+        home: const TravelTabView(),
         theme: ThemeData.light().copyWith(
             scaffoldBackgroundColor: Colors.grey.shade300,
+            tabBarTheme: TabBarTheme(
+              labelColor: Colors.pink.shade700,
+              unselectedLabelColor: Colors.pink.shade200,
+              indicatorSize: TabBarIndicatorSize.label,
+            ),
             appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent, systemOverlayStyle: SystemUiOverlayStyle.light, elevation: 0),
             floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Colors.indigo.shade500)),
       ),

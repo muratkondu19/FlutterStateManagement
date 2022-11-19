@@ -17,6 +17,7 @@ dependencies:
   #State
   provider: ^6.0.4
   flutter_mobx: ^2.0.6+5
+  flutter_bloc: ^8.1.1
 
   #Utility
   kartal: ^2.5.1
@@ -45,3 +46,4 @@ flutter:
  
   assets:
     - asset/images/
+    - asset/images/feed/
