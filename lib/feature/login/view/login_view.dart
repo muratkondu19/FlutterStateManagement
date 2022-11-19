@@ -21,8 +21,13 @@ class LoginView extends StatelessWidget {
       body: Padding(
         padding: const PagePadding.all(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SizedBox(height: context.dynamicHeight(0.2), width: context.dynamicWidth(0.3), child: ImageEnums.door.toImage),
+            AnimatedContainer(
+                duration: context.durationLow,
+                height: context.isKeyBoardOpen ? 0 : context.dynamicHeight(0.2),
+                width: context.dynamicWidth(0.3),
+                child: ImageEnums.door.toImage),
             Text(
               login2,
               style: context.textTheme.headline4,
